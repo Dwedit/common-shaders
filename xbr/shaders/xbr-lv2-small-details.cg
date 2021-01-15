@@ -66,7 +66,7 @@ float c_df(float3 c1, float3 c2)
 
 bool4 eq(float4 A, float4 B)
 {
-	return (df(A, B) < float4(XBR_EQ_THRESHOLD));
+	return (df(A, B) < (float4)(XBR_EQ_THRESHOLD));
 }
 
 float4 weighted_distance(float4 a, float4 b, float4 c, float4 d, float4 e, float4 f, float4 g, float4 h, float4 i, float4 j, float4 k, float4 l)
@@ -94,7 +94,7 @@ struct out_vertex {
 	float4 t5       : TEXCOORD5;
 	float4 t6       : TEXCOORD6;
 	float4 t7       : TEXCOORD7;
-	float scale;
+	float scale		: TEXCOORD8;
 };
 
 /*    VERTEX_SHADER    */
@@ -212,7 +212,7 @@ float4 main_fragment(in out_vertex VAR, uniform sampler2D decal : TEXUNIT0, unif
 	float4 wd1 = weighted_distance( e, c, g, i, f4, h5, h, f, b, d, i4, i5);
 	float4 wd2 = weighted_distance( h, d, i5, f, b, i4, e, i, g, h5, c, f4);
 
-	edr      = interp_restriction_lv1  && (wd1 <  (wd2 - float4(XBR_STRENGTH*100.0)));
+	edr      = interp_restriction_lv1  && (wd1 <  (wd2 - (float4)(XBR_STRENGTH*100.0)));
         edri     = !edr && (wd1 <= wd2);
 	edr_left = ((XBR_LV2_COEFFICIENT*df(f,g)) <= df(h,c)) && interp_restriction_lv2_left && edr && (!edri.yzwx);
 	edr_up   = (df(f,g) >= (XBR_LV2_COEFFICIENT*df(h,c))) && interp_restriction_lv2_up && edr && (!edri.wxyz );

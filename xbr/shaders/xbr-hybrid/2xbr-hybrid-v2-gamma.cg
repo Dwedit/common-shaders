@@ -80,12 +80,12 @@ float4 df(float4 A, float4 B)
 
 bool4 eq(float4 A, float4 B)
 {
-	return (df(A, B) < float4(15.0));
+	return (df(A, B) < (float4)(15.0));
 }
 
 bool4 eq2(float4 A, float4 B)
 {
-	return (df(A, B) < float4(2.0));
+	return (df(A, B) < (float4)(2.0));
 }
 
 

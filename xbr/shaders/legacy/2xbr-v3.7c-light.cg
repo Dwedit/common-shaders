@@ -20,7 +20,7 @@
 */
 
 const static float coef           = 2.0;
-const static float4 eq_threshold  = float4(15.0);
+const static float4 eq_threshold  = (float4)(15.0);
 const static float y_weight        = 48.0;
 const static float u_weight        = 7.0;
 const static float v_weight        = 6.0;
@@ -35,7 +35,7 @@ float4 df(float4 A, float4 B)
 
 bool4 eq(float4 A, float4 B)
 {
-	return (df(A, B) < float4(15.0));
+	return (df(A, B) < (float4)(15.0));
 }
 
 float4 weighted_distance(float4 a, float4 b, float4 c, float4 d, float4 e, float4 f, float4 g, float4 h)
@@ -64,7 +64,7 @@ struct out_vertex {
 	float4 t5       : TEXCOORD5;
 	float4 t6       : TEXCOORD6;
 	float4 t7       : TEXCOORD7;
-	float2 pos;
+	float2 pos		: TEXCOORD8;
 };
 
 /*    VERTEX_SHADER    */

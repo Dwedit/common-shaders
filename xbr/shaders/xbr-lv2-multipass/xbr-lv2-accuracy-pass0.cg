@@ -70,7 +70,7 @@ float4 df(float4x3 A, float4x3 B)
 
 bool4 eq(float4x3 A, float4x3 B)
 {
-	return (df(A, B) < float4(XBR_EQ_THRESHOLD));
+	return (df(A, B) < (float4)(XBR_EQ_THRESHOLD));
 }
 
 float4 weighted_distance(float4x3 a, float4x3 b, float4x3 c, float4x3 d, float4x3 e, float4x3 f, float4x3 g, float4x3 h)

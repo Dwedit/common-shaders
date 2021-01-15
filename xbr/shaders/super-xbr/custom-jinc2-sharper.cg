@@ -124,7 +124,7 @@ float3 max4(float3 a, float3 b, float3 c, float3 d)
     {
       float4 res;
 
-      res = (x==float4(0.0, 0.0, 0.0, 0.0)) ?  float4(wa*wb)  :  sin(x*wa)*sin(x*wb)/(x*x);
+      res = (x==float4(0.0, 0.0, 0.0, 0.0)) ?  (float4)(wa*wb)  :  sin(x*wa)*sin(x*wb)/(x*x);
 
       return res;
     }
@@ -177,7 +177,7 @@ float3 max4(float3 a, float3 b, float3 c, float3 d)
       color+= mul(weights[1], float4x3(c01, c11, c21, c31));
       color+= mul(weights[2], float4x3(c02, c12, c22, c32));
       color+= mul(weights[3], float4x3(c03, c13, c23, c33));
-      color = color/(dot(mul(weights, float4(1)), 1));
+      color = color/(dot(mul(weights, (float4)(1)), 1));
 
 
 

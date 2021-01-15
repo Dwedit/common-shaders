@@ -100,7 +100,7 @@ struct out_vertex {
 	float4 position : POSITION;
 	float4 color    : COLOR;
 	float2 texCoord : TEXCOORD0;
-	float2 t1;
+	float2 t1		: TEXCOORD1;
 };
 
 /*    VERTEX_SHADER    */
@@ -238,7 +238,7 @@ float4 main_fragment(in out_vertex VAR, uniform sampler2D decal : TEXUNIT0, unif
 	float4 info;
 
 
-info= (edr4_left && !edr4_up) ? float4(8.0) : ((edr4_up && !edr4_left) ? float4(7.0) : ((edr3_left && !edr3_up) ? float4(6.0) : ((edr3_up && !edr3_left) ? float4(5.0) : ((edr_left && !edr_up) ? float4(4.0) : ((edr_up && !edr_left) ? float4(3.0) : (edr ? float4(2.0) : (edr0 ? float4(1.0) : float4(0.0))))))));
+info= (edr4_left && !edr4_up) ? (float4)(8.0) : ((edr4_up && !edr4_left) ? (float4)(7.0) : ((edr3_left && !edr3_up) ? (float4)(6.0) : ((edr3_up && !edr3_left) ? (float4)(5.0) : ((edr_left && !edr_up) ? (float4)(4.0) : ((edr_up && !edr_left) ? (float4)(3.0) : (edr ? (float4)(2.0) : (edr0 ? (float4)(1.0) : (float4)(0.0))))))));
 
 	return float4(remapTo01(info, maximo));
 

@@ -25,7 +25,7 @@
 */
 
 const static float coef           = 2.0;
-const static float4 eq_threshold  = float4(15.0);
+const static float4 eq_threshold  = (float4)(15.0);
 const static float y_weight        = 48.0;
 const static float u_weight        = 7.0;
 const static float v_weight        = 6.0;
@@ -36,8 +36,8 @@ const static float3x3 yuv_weighted = float3x3(y_weight*yuv[0], u_weight*yuv[1], 
         #define InputGamma 2.4
         #define OutputGamma 2.2
 
-        #define GAMMA_IN(color)     pow(color, float3(InputGamma))
-        #define GAMMA_OUT(color)    pow(color, float3(1.0 / OutputGamma))
+        #define GAMMA_IN(color)     pow(color, (float3)(InputGamma))
+        #define GAMMA_OUT(color)    pow(color, (float3)(1.0 / OutputGamma))
 
 	#define TEX2D(coords)	GAMMA_IN( tex2D(decal, coords).xyz )
 
@@ -62,7 +62,7 @@ float4 df(float4 A, float4 B)
 
 bool4 eq(float4 A, float4 B)
 {
-	return (df(A, B) < float4(15.0));
+	return (df(A, B) < (float4)(15.0));
 }
 
 float4 weighted_distance(float4 a, float4 b, float4 c, float4 d, float4 e, float4 f, float4 g, float4 h)
@@ -228,7 +228,7 @@ float4 main_fragment(in out_vertex VAR, uniform sampler2D decal : TEXUNIT0, unif
             float ddy = fp.y - 0.5;
             float v_weight_00 = ddy / SPOT_HEIGHT;
             WEIGHT(v_weight_00);
-            color *= float3( v_weight_00 );
+            color *= (float3)( v_weight_00 );
 
 	    // get closest vertical neighbour to blend
  	    float3 coords10;
@@ -244,9 +244,9 @@ float4 main_fragment(in out_vertex VAR, uniform sampler2D decal : TEXUNIT0, unif
             float v_weight_10 = ddy / SPOT_HEIGHT;
             WEIGHT( v_weight_10 );
 
-            color += colorNB * float3( v_weight_10 );
+            color += colorNB * (float3)( v_weight_10 );
 
-            color *= float3( COLOR_BOOST );
+            color *= (float3)( COLOR_BOOST );
 
 	return float4(clamp( GAMMA_OUT(color), 0.0, 1.0 ), 1.0);
 }

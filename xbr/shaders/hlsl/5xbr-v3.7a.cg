@@ -25,7 +25,7 @@
 */
 
 const static float coef           = 2.0;
-const static half3 yuv_weighted  = half3(14.352, 28.176, 5.472);
+const static float3 yuv_weighted  = float3(14.352, 28.176, 5.472);
 
 
 float4 df(float4 A, float4 B)

@@ -45,7 +45,7 @@ void main_vertex
 */
 
 
-const float3 dtt = float3(65536,255,1);
+static const float3 dtt = float3(65536,255,1);
 
 struct output
 {
