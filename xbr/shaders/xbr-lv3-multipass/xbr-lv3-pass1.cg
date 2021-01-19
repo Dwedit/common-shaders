@@ -32,12 +32,13 @@
 
 const static float2x4 sym_vectors  = float2x4(1,  1,   -1, -1,    1, -1,   -1,  1);
 
-//for HLSL:
-#define CONST static const
-//for CG:
-//#define CONST const
+#ifndef CG
+#define CONST static const  //`static const` is required for HLSL
+#else
+#define CONST const         //for CG, a compiler warning appears about too much data, use plain `const` instead
+#endif
 
-const float3 lines[12] = {
+CONST float3 lines[12] = {
    1.0, 1.0, 0.75,
    1.0, 1.0, 0.5,
    2.0, 1.0, 0.5,
