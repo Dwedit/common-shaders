@@ -19,6 +19,8 @@
 
 */
 
+// Does not support HLSL Shader Model 3.0 (produces 'error X4505: maximum temp register index exceeded')
+
 /*
 	VERTEX_SHADER
 */
