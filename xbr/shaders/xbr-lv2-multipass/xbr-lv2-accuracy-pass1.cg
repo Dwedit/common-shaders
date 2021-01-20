@@ -97,14 +97,6 @@ float4 unpack_info(float i)
 	return info;
 }
 
-struct prev
-{
-	float2 video_size;
-	float2 texture_size;
-	//sampler2D texture;
-};
-
-
 struct input
 {
 	float2 video_size;
@@ -121,7 +113,7 @@ struct out_vertex {
 	float2 texCoord : TEXCOORD0;
 	float4 t1       : TEXCOORD1;
 	float4 t2       : TEXCOORD2;
-	//float4 t3       : TEXCOORD3;
+	//float4 t3       : TEXCOORD3;	//not used
 };
 
 /*    VERTEX_SHADER    */
@@ -158,7 +150,7 @@ void main_vertex
 
 
 /*    FRAGMENT SHADER    */
-float4 main_fragment(in out_vertex co, uniform sampler2D decal : TEXUNIT0, uniform prev PASSPREV2, uniform sampler2D PASSPREV2_texture, uniform input IN) : COLOR
+float4 main_fragment(in out_vertex co, uniform sampler2D decal : TEXUNIT0, uniform sampler2D PASSPREV2_texture, uniform input IN) : COLOR
 {
 
 	bool4 px; // px = pixel, edr = edge detection rule

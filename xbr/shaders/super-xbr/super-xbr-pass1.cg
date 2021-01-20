@@ -84,14 +84,6 @@ float3 max4(float3 a, float3 b, float3 c, float3 d)
     return max(a, max(b, max(c, d)));
 }
 
-
-    struct prev
-    {
-		float2 video_size;
-		float2 texture_size;
-		//sampler2D texture;
-    };
-     
     struct input
     {
         float2 video_size;
@@ -117,7 +109,7 @@ float3 max4(float3 a, float3 b, float3 c, float3 d)
         float2 texCoord    : TEXCOORD0,
      
         uniform float4x4 modelViewProj,
-		uniform prev PASSPREV2, uniform sampler2D PASSPREV2_texture,
+		uniform sampler2D PASSPREV2_texture,
         uniform input IN
     )
     {
@@ -131,7 +123,7 @@ float3 max4(float3 a, float3 b, float3 c, float3 d)
     }
      
      
-    float4 main_fragment(in out_vertex VAR, uniform sampler2D s0 : TEXUNIT0, uniform prev PASSPREV2, uniform sampler2D PASSPREV2_texture, uniform input IN) : COLOR
+    float4 main_fragment(in out_vertex VAR, uniform sampler2D s0 : TEXUNIT0, uniform sampler2D PASSPREV2_texture, uniform input IN) : COLOR
     {
 	//Skip pixels on wrong grid
 	float2 fp = frac(VAR.texCoord*IN.texture_size);

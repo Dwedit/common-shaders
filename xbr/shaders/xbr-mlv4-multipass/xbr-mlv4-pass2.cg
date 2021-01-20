@@ -92,13 +92,6 @@ float4 weighted_distance(float4 a, float4 b, float4 c, float4 d, float4 e, float
 	return (df(a,b) + df(a,c) + df(d,e) + df(d,f) + 4.0*df(g,h));
 }
 
-struct prev
-{
-	float2 tex_coord;
-	float2 texture_size;
-	//sampler2D texture;
-};
-
 struct input
 {
 	float2 video_size;
@@ -164,7 +157,7 @@ out_vertex main_vertex
 
 
 /*    FRAGMENT SHADER    */
-float4 main_fragment(in out_vertex VAR, uniform sampler2D decal : TEXUNIT0, uniform prev PASSPREV2, uniform sampler2D PASSPREV2_texture, uniform input IN) : COLOR
+float4 main_fragment(in out_vertex VAR, uniform sampler2D decal : TEXUNIT0, uniform sampler2D PASSPREV2_texture, uniform input IN) : COLOR
 {
 	float4 PA  = tex2D(decal, VAR.t2.xw);
 	float4 PB  = tex2D(decal, VAR.t2.yw);

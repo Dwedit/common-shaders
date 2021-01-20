@@ -98,13 +98,6 @@ float3 max4(float3 a, float3 b, float3 c, float3 d)
     return max(a, max(b, max(c, d)));
 }
 
-struct prev
-{
-	float2 tex_coord;
-	float2 texture_size;
-	//sampler2D texture;
-};
-     
     struct input
     {
         float2 video_size;
@@ -156,8 +149,8 @@ struct prev
     }
      
      
-    float4 main_fragment(in out_vertex VAR, uniform sampler2D s0 : TEXUNIT0, uniform prev PASSPREV3, uniform sampler2D PASSPREV3_texture, uniform input IN) : COLOR
-    {
+float4 main_fragment(in out_vertex VAR, uniform sampler2D s0 : TEXUNIT0, uniform sampler2D PASSPREV3_texture, uniform input IN) : COLOR
+{
 	float2 tex = (floor(VAR.texCoord*IN.texture_size/XBR_RES) + float2(0.5, 0.5))*XBR_RES/IN.texture_size;
 
 	float2 g1 = float2(XBR_RES/IN.texture_size.x, 0.0);

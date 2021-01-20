@@ -80,16 +80,6 @@ float df(float A, float B)
 	iq.y = dot( ay, bin ) - 2.0;\
 	PIXEL = tex2D( PASSPREV4_texture, co.texCoord + iq.x*co.t1.xy + iq.y*co.t1.zw ).xyz;\
 
-
-
-struct prev
-{
-	float2 video_size;
-	float2 texture_size;
-	//sampler2D texture;
-};
-
-
 struct input
 {
 	float2 video_size;
@@ -117,14 +107,14 @@ void main_vertex
 
    	uniform float4x4 modelViewProj,
 	uniform input IN,
-	uniform prev PASSPREV4, uniform sampler2D PASSPREV4_texture,
+	uniform float2 PASSPREV4_video_size, uniform float2 PASSPREV4_texture_size,
 	out out_vertex co
 )
 {
 	co.position = mul(modelViewProj, position);
 	co.color = color;
 
-	float2 ps = float2(1.0/PASSPREV4.texture_size.x, 1.0/PASSPREV4.texture_size.y);
+	float2 ps = float2(1.0/PASSPREV4_texture_size.x, 1.0/PASSPREV4_texture_size.y);
 	float dx = ps.x;
 	float dy = ps.y;
 
@@ -138,16 +128,16 @@ void main_vertex
 
 	co.texCoord = texCoord;
 	co.t1           = float4(dx, 0, 0, dy);  // F  H
-	co.scale_factor = IN.output_size.x/PASSPREV4.video_size.x;
+	co.scale_factor = IN.output_size.x/PASSPREV4_video_size.x;
 }
 
 
 /*    FRAGMENT SHADER    */
-float4 main_fragment(in out_vertex co, uniform sampler2D decal : TEXUNIT0, uniform prev PASSPREV4, uniform sampler2D PASSPREV4_texture, uniform input IN) : COLOR
+float4 main_fragment(in out_vertex co, uniform sampler2D decal : TEXUNIT0, uniform float2 PASSPREV4_texture_size, uniform sampler2D PASSPREV4_texture, uniform input IN) : COLOR
 {
-	float2 fp = frac( co.texCoord*PASSPREV4.texture_size ) - float2( 0.5, 0.5 ); // pos = pixel position
+	float2 fp = frac( co.texCoord*PASSPREV4_texture_size ) - float2( 0.5, 0.5 ); // pos = pixel position
 
-	float2 pxcoord = floor(co.texCoord*PASSPREV4.texture_size)/PASSPREV4.texture_size;
+	float2 pxcoord = floor(co.texCoord*PASSPREV4_texture_size)/PASSPREV4_texture_size;
 
 	float4 UL = tex2D(decal, pxcoord + 0.25*co.t1.xy + 0.25*co.t1.zw );
 	float4 UR = tex2D(decal, pxcoord + 0.75*co.t1.xy + 0.25*co.t1.zw );

@@ -47,11 +47,11 @@ const static float4 high           = float4( 64.0f,  64.0f,  64.0f,  64.0f);
 
 const static float2x4 sym_vectors  = float2x4(1,  1,   -1, -1,    1, -1,   -1,  1);
 
-//for HLSL:
-#define CONST static const
-//for CG:
-//#define CONST const
-
+#ifndef CG
+#define CONST static const  //`static const` is required for HLSL
+#else
+#define CONST const         //for CG, a compiler warning appears about too much data, use plain `const` instead
+#endif
 
 // Bx, Ay, C
 CONST float3 lines[13] = {
@@ -98,14 +98,6 @@ float weighted_distance(float a, float b, float c, float d, float e, float f, fl
 	return (df(a,b) + df(a,c) + df(d,e) + df(d,f) + 4.0*df(g,h));
 }
 
-struct prev
-{
-	float2 tex_coord;
-	float2 texture_size;
-	//sampler2D texture;
-};
-
-
 struct input
 {
 	float2 video_size;
@@ -132,14 +124,14 @@ void main_vertex
 
    	uniform float4x4 modelViewProj,
 	uniform input IN,
-	uniform prev PASSPREV3, uniform sampler2D PASSPREV3_texture,
+	uniform float2 PASSPREV3_texture_size,
 	out out_vertex co
 )
 {
 	co.position = mul(modelViewProj, position);
 	co.color = color;
 
-	float2 ps = float2(1.0/PASSPREV3.texture_size.x, 1.0/PASSPREV3.texture_size.y);
+	float2 ps = float2(1.0/PASSPREV3_texture_size.x, 1.0/PASSPREV3_texture_size.y);
 	float dx = ps.x;
 	float dy = ps.y;
 
@@ -157,11 +149,11 @@ void main_vertex
 
 
 /*    FRAGMENT SHADER    */
-float4 main_fragment(in out_vertex co, uniform sampler2D decal : TEXUNIT0, uniform prev PASSPREV3, uniform sampler2D PASSPREV3_texture, uniform input IN) : COLOR
+float4 main_fragment(in out_vertex co, uniform sampler2D decal : TEXUNIT0, uniform float2 PASSPREV3_texture_size, uniform sampler2D PASSPREV3_texture, uniform input IN) : COLOR
 {
 	float px;
 
-	float2 pos = frac(co.texCoord*PASSPREV3.texture_size)-float2(0.5, 0.5); // pos = pixel position
+	float2 pos = frac(co.texCoord*PASSPREV3_texture_size)-float2(0.5, 0.5); // pos = pixel position
 	float2 dir = sign(pos); // dir = pixel direction
 
 	float2 g1 = dir*( saturate(-dir.y*dir.x)*co.t1.zw + saturate( dir.y*dir.x)*co.t1.xy);
