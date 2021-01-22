@@ -74,6 +74,13 @@ float4 unpack_info(float i)
 	return info;
 }
 
+struct orig
+{
+	float2 video_size;
+	float2 texture_size;
+	float2 output_size;
+};
+
 struct input
 {
 	float2 video_size;
@@ -102,15 +109,17 @@ void main_vertex
 	float2 texCoord : TEXCOORD0,
 
    	uniform float4x4 modelViewProj,
-	float2 PASSPREV2_tex_coord,	//NOT BOUND, does not build
-	uniform float2 PASSPREV2_texture_size, uniform sampler2D PASSPREV2_texture,
+	uniform input IN,
+	uniform orig PASSPREV2, uniform sampler2D PASSPREV2_texture,
 	out out_vertex co
 )
 {
+	float2 PASSPREV2_tex_coord = texCoord / (IN.video_size / IN.texture_size) * (PASSPREV2.video_size / PASSPREV2.texture_size);
+
 	co.position = mul(modelViewProj, position);
 	co.color = color;
 
-	float2 ps = float2(1.0/PASSPREV2_texture_size.x, 1.0/PASSPREV2_texture_size.y);
+	float2 ps = float2(1.0/PASSPREV2.texture_size.x, 1.0/PASSPREV2.texture_size.y);
 	float dx = ps.x;
 	float dy = ps.y;
 
